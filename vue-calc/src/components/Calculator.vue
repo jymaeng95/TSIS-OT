@@ -18,7 +18,7 @@
       <div class="btn" v-on:click="getNumber('3')">3</div>
       <div class="btn operation" v-on:click="operation('+')">+</div>
       <div class="btn zero" v-on:click="getNumber('0')">0</div>
-      <div class="btn">.</div>
+      <div class="btn" v-on:click="getDot()">.</div>
       <div class="btn" v-on:click="result()">=</div>
       <span>{{exp}}</span>
   </div>
@@ -31,18 +31,29 @@ export default {
         return {
             num : "",
             rst : "",
-            top : -1,
-       
             exp : "0",
             flag : false,
         }
     },
     methods : {
+        //숫자 입력
         getNumber(num) {
+
+            //수식의 첫 자리가 0인경우 이어붙히지 않게하기 위해서
             if(this.exp.length == 1 && this.exp === "0"){
                 this.exp = "";
             }
+
+            //결과 입력창이 0인 경우 숫자가 바뀌도록
+            if(this.rst.charAt(0) === '0' && this.rst.length == 1) {
+                this.rst = "";
+                this.exp = this.exp.substr(0, this.exp.length-1);
+
+            }
+
+            //수식에 숫자 입력
             this.exp += num;
+            
             if(this.flag){
                 this.rst = "";
                 this.flag = false;
@@ -50,109 +61,53 @@ export default {
             this.rst += num;
             
         },
+        //수식과 입력창 한개 삭제
         deleteOne() {
             if(this.rst.length > 0)
                 this.exp = this.exp.substr(0,this.exp.length - 1);
             this.rst = this.rst.substr(0,this.rst.length - 1);
             
         },
+
+        //초기화 
         init() {
             this.exp = "";
             this.rst = "";
         },
+
+        //부호 변환(입력값, 수식값)
         changePlusMinus() {
             var cutLength = this.rst.length;
             this.rst = (this.rst > 0) ? "-" + this.rst :  this.rst.substr(1,this.rst.length - 1);
             this.exp = this.exp.substr(0,this.exp.length-cutLength) + this.rst;
-
-
-            // if(this.rst > 0) {
-            //     this.exp = this.exp.substr(0,this.exp.length-this.rst.length);
-            //     this.exp += "-"+this.rst;
-            // }else {
-
-            //     this.exp = this.exp.replace(this.exp.charAt(this.exp.length - this.rst.length),"");
-            // }
-            // this.exp += (this.rst > 0) ? "-" + this.rst : this.rst;
         },
+
+        //연산자 붙히기
         operation(opt) {
             if(isNaN(this.exp.charAt(this.exp.length-1))) {
-                this.exp = this.exp.replace(this.exp.charAt(this.exp.length-1),opt);    
+                this.exp = this.exp.substr(0,this.exp.length-1)+opt;
+               
             }else {
                 this.exp+=opt;
-
             }
             this.flag = true;
         },
-        stackInit() {
-            this.top =-1;
-            this.stack = [];
-        },
-        isEmpty() {
-            return this.stack.length == 0;
-        },
-        push(val) {
-            this.stack[++this.top] = val;
-        },
-        pop() {
-            if(this.top < 0){
-                return -1;
-            } else {
-                var val = this.stack[this.top];
-                this.stack = this.stack.slice(0, this.top);
-                this.top--;
-                return val;
-            }
-        },
-        priority(val) {
-            switch(val) {
-                case '*':
-                case '/':
-                    return 1;
-                case '+':
-                case '-':
-                    return -1;
-            }
-            return 2;
-        },
-        result() {
-            var temp = "";
-            var stack = [];
-            var save = [];
-            
-            for(let i=0;i<this.exp.length; i++) {
-                const char = this.exp.charAt(i);
-                switch(char) {
-                    case '+' : 
-                    case '-' :
-                    case '*' :
-                    case '/' :
-                        while(stack[stack.length-1]!=null && (this.priority(char) <= this.priority(stack[stack.length-1]))) {
-                            temp+=stack.pop();
-                            alert(temp);
-                            if(isNaN(stack[stack.length-1])) {
-                                save.push(temp);
-                                temp = "";
-                            }
-                        }
-                        stack.push(char);
-                        break;
-                    default :
-                        temp+=char;
-                        if(isNaN(this.exp.charAt(i+1)) || (i+1 == this.exp.length)){
-                            save.push(temp);
-                            temp = "";
-                        }
-                        break;
-                }
-            }
-            temp = "";
-            for(let i in save){
-                temp+=save[i];
 
+        //소수점 붙히기
+        getDot() {
+            if(this.rst.indexOf('.')===-1){
+                this.rst += '.';
+                this.exp += '.';
             }
-            alert(temp);
-        }
+        },
+
+        //결과 출력
+        result() {
+            //결과 클릭 후 다시 연산하는 경우를 위해 String으로 변환
+            this.rst = eval(this.exp).toString();
+            this.exp = this.rst.toString();
+            this.flag = true;
+        },
     }
 }
 </script>
