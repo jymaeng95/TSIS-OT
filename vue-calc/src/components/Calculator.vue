@@ -20,7 +20,7 @@
       <div class="btn zero" v-on:click="getNumber('0')">0</div>
       <div class="btn" v-on:click="getDot()">.</div>
       <div class="btn equal" v-on:click="result()">=</div>
-      <span>{{exp}}</span>
+
   </div>
 
 </template>
@@ -56,9 +56,7 @@ export default {
             if(this.rst.charAt(0) === '0' && this.rst.length == 1) {
                 this.rst = "";
                 this.exp = this.exp.substr(0, this.exp.length-1);
-
             }
-
             //수식에 숫자 입력
             this.exp += num;
             
@@ -93,11 +91,14 @@ export default {
                     }else {
                         this.rst = this.rst.slice(1);
                     }
+                    this.exp = this.exp.substr(0,this.exp.length)+this.rst;
+                    this.flag = false;
+                }else {
+                        this.rst = '-';
+                        this.exp =  this.exp.substr(0,this.exp.length)+'-';
+                    
                 }
 
-                    // this.rst = this.rst.charAt(0) ==='-' ? this.rst.slice(1) : '-';
-                this.exp = this.exp.substr(0,this.exp.length)+this.rst;
-                this.flag = false;
             }else {
                 var cutLength = this.rst.length;
                 this.rst = (this.rst > 0) ? "-" + this.rst :  this.rst.substr(1,this.rst.length - 1);
@@ -127,7 +128,7 @@ export default {
         //결과 출력
         result() {
             //결과 클릭 후 다시 연산하는 경우를 위해 String으로 변환
-            alert(eval("10*9-(-2)"));
+        
             var result = "";
             for(var i=0;i<this.exp.length-1;i++){
                 if(this.exp.charAt(i)==='-' && this.exp.charAt(i+1)==='-'){
@@ -140,32 +141,12 @@ export default {
                 
             }
             result+= this.exp.charAt(this.exp.length-1);
-            alert(result);
+        
             this.rst = eval(result).toString();
             this.exp = this.rst.toString();
             this.flag = true;
         },
-        // result() {
-        //     var stack = [];
-        //     var save = [];
-        //     var temp = "";
-            
-        //     for(var i=0;i<this.exp.length;i++){
-        //         var char = this.exp.charAt(i);
-                
-        //     }
-        // },
-        // priority(val) {
-        //     switch(val){
-        //         case '+':
-        //         case '-':
-        //             return 1;
-        //         case '*':
-        //         case '/':
-        //             return 2;
-        //     }
-        //     return 10;
-        // }
+        
     }
 }
 </script>
