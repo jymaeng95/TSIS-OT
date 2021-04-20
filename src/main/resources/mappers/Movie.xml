@@ -5,4 +5,9 @@
         select * from movie
     </select>
 
+    <select id="getMovie" resultType="com.tsis.theater.domain.Movie">
+        select * from movie
+        where movieno = #{movieNo}
+    </select>
+
 </mapper>
