@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tsis.theater.repository.TicketRepository">
+    <!-- 예매 하기  -->
+    <insert id="insertTicketing">
+        insert into ticketing
+        values(#{seat},#{ticketNo},#{movieNo},#{phone})
+    </insert>
+
+    <!-- 예매 번호 가져오기   -->
+    <select id="readTicketing" resultType="java.util.HashMap">
+        select ticketno, movieno, count(ticketno) as countPeople
+        from ticketing where phone = #{phone}
+        group by ticketno
+    </select>
+
+    <!-- 예매 변경
+    <update id="updateTicketing">
+
+    </update>-->
+
+    <!--예매 취소-->
+    <delete id="deleteTicketing">
+        delete from ticketing
+        where ticketno = #{ticketNo}
+    </delete>
+
+<!--     현재 이용 중인 좌석 개수 가져오기  -->
+    <select id="readTicketingCountSeat" resultType="Integer">
+        select count(seat)
+        from ticketing
+        where
+        <foreach collection="list" index="index" item="data" separator=",">
+            movieno = #{data}
+        </foreach>
+    </select>
+
+    <!--좌석 정보 가져오기-->
+    <select id="readSeatStatus" resultType="String">
+        select seat
+        from ticketing
+        where ticketno = #{ticketNo}
+
+    </select>
+</mapper>
