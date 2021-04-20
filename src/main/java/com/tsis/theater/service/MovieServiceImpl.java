@@ -16,4 +16,9 @@ public class MovieServiceImpl implements MovieService{
     public List<Movie> getAllMoviesInfo() {
         return movieRepository.getAllMovies();
     }
+
+    @Override
+    public Movie getMovieInfo(int movieNo) {
+        return movieRepository.getMovie(movieNo);
+    }
 }
