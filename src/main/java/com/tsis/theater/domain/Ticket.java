@@ -1,19 +1,21 @@
 package com.tsis.theater.domain;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(description = "예매를 위한 티켓 도메인 객체")
 public class Ticket {
-    private int ticketId;
+    @ApiModelProperty(value = "예매 좌석")
     private String seat;
+
+    @ApiModelProperty(value = "예매 번호")
     private int ticketNo;
+
+    @ApiModelProperty(value = "영화 번호")
     private int movieNo;
+
+    @ApiModelProperty(value = "핸드폰 번호")
     private String phone;
-
-    public int getTicketId() {
-        return ticketId;
-    }
-
-    public void setTicketId(int ticketId) {
-        this.ticketId = ticketId;
-    }
 
     public String getSeat() {
         return seat;
@@ -50,7 +52,6 @@ public class Ticket {
     @Override
     public String toString() {
         return "Ticket{" +
-                "ticketId=" + ticketId +
                 ", seat='" + seat + '\'' +
                 ", ticketNo=" + ticketNo +
                 ", movieNo=" + movieNo +
