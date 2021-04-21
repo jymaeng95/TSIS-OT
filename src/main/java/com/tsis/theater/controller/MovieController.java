@@ -9,15 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/movie")
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @Api(tags = "Movie", value = "Movie controller")
 public class MovieController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MovieController.class);
@@ -42,5 +41,16 @@ public class MovieController {
         LOGGER.debug("영화 번호 별 영화 정보 조회");
 
         return new ResponseEntity<>(movieService.getMovieInfo(movieNo),HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "상영관 별 영화 정보 조회")
+    @GetMapping()
+    public ResponseEntity<List<Movie>> getMovieInfoFromRoom() {
+        LOGGER.debug("상영관 별 영화 정보 조회 시도");
+        List<Movie> movieList = new ArrayList<>();
+        for(int i=1;i<=3;i++) {
+            movieList.add(movieService.getMovieInfoFromRoom(i));
+        }
+        return new ResponseEntity<>(movieList,HttpStatus.OK);
     }
 }

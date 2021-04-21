@@ -26,4 +26,9 @@ public class MovieServiceImpl implements MovieService{
     public int getCurrentScreenCount() {
         return movieRepository.getCurrentScreenCount();
     }
+
+    @Override
+    public Movie getMovieInfoFromRoom(int room) {
+        return movieRepository.getMovieFromRoom(room);
+    }
 }

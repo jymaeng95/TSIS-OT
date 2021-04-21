@@ -13,4 +13,7 @@ public interface MovieService {
 
     //현재상영중인 영화 개수 가져오기
     int getCurrentScreenCount();
+
+    //상영관 정보를 통해 간략한 영화 정보 가져오기
+    Movie getMovieInfoFromRoom(int room);
 }
