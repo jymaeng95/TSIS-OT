@@ -15,4 +15,10 @@
         from movie
     </select>
 
+    <select id="getMovieFromRoom" resultType="com.tsis.theater.domain.Movie">
+        select room, title, totalseat
+        from movie
+        where room = #{room}
+        group by room
+    </select>
 </mapper>
