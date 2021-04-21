@@ -23,7 +23,7 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
-    public int geCurrentScreenCount() {
+    public int getCurrentScreenCount() {
         return movieRepository.getCurrentScreenCount();
     }
 }

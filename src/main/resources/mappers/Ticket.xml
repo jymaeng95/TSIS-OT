@@ -29,10 +29,7 @@
     <select id="readTicketingCountSeat" resultType="Integer">
         select count(seat)
         from ticketing
-        where
-        <foreach collection="list" index="index" item="data" separator=",">
-            movieno = #{data}
-        </foreach>
+        where movieno = #{movieNo}
     </select>
 
     <!--좌석 정보 가져오기-->
@@ -40,6 +37,5 @@
         select seat
         from ticketing
         where ticketno = #{ticketNo}
-
     </select>
 </mapper>

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/ticketing")
@@ -63,15 +62,17 @@ public class TicketController {
         return new ResponseEntity<>(ticketService.getReserveSeat(movieNo), HttpStatus.OK);
     }
 
-    @ApiOpertion(value="현재 예매된 좌석 개수 가져오기")
+    @ApiOperation(value="현재 예매된 좌석 개수 가져오기")
     @GetMapping("/seatStatus/current")
     public ResponseEntity<List<Integer>> getCurrentScreenStatus() {
         LOGGER.debug("현재 예매된 좌석 개수 가져오기");
-        List<Integer> movieNoList = new ArrayList<>();
-        for(int i=1;i<= movieService.geCurrentScreenCount();i++){
-            movieNoList.add(i);
+        List<Integer> curSeatList = new ArrayList<>();
+
+        for(int i=1;i<= movieService.getCurrentScreenCount();i++){
+            int ticketingSeatCount = ticketService.getTicketingSeatCount(i);
+            curSeatList.add(ticketingSeatCount);
         }
 
-        return new ResponseEntity<>(ticketService.getTicketingSeatCount(movieNoList),HttpStatus.OK);
+        return new ResponseEntity<>(curSeatList,HttpStatus.OK);
     }
 }

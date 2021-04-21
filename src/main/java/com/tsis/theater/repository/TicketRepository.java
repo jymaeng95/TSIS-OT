@@ -23,7 +23,7 @@ public interface TicketRepository {
 
     //현재 이용 중인 좌석 개수 가져오기
     //Integer list로 가져오기
-    List<Integer> readTicketingCountSeat(List<Integer> movieNoList);
+    int readTicketingCountSeat(int movieNo);
 
     //좌석 정보 가져오기
     List<String> readSeatStatus(int ticketNo);
