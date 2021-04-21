@@ -19,5 +19,5 @@ public interface TicketService {
     List<String> getReserveSeat(int movieNo);
 
     //현재 예매된 좌석 개수 가져오기
-    List<Integer> getTicketingSeatCount(List<Integer> movieNoList);
+    int getTicketingSeatCount(int movieNo);
 }

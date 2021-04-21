@@ -12,5 +12,5 @@ public interface MovieService {
     Movie getMovieInfo(int movieNo);
 
     //현재상영중인 영화 개수 가져오기
-    int geCurrentScreenCount();
+    int getCurrentScreenCount();
 }

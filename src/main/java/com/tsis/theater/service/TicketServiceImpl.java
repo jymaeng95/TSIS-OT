@@ -34,8 +34,8 @@ public class TicketServiceImpl implements TicketService{
     }
 
     @Override
-    public List<Integer> getTicketingSeatCount(List<Integer> movieNoList) {
-        return ticketRepository.readTicketingCountSeat(movieNoList);
+    public int getTicketingSeatCount(int movieNo) {
+        return ticketRepository.readTicketingCountSeat(movieNo);
     }
 
 }
