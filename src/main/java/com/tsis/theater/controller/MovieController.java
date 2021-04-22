@@ -26,17 +26,15 @@ public class MovieController {
 
     //화면 1 보여주기
     @ApiOperation(value="모든 영화 정보 조회")
-    @GetMapping("/info")
-    public ResponseEntity<List<Movie>> getAllMovieInfo() {
+    @GetMapping("/room/{room}")
+    public ResponseEntity<List<Movie>> getAllMovieInfo(@PathVariable("room") int room) {
         LOGGER.debug("모든 영화 정보 조회");
-        List<Movie> test = movieService.getAllMoviesInfo();
-
         // mybatis -> camel 형식 변환 알아보기
-        return new ResponseEntity<>(movieService.getAllMoviesInfo(), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getAllRoomMoviesInfo(room), HttpStatus.OK);
     }
 
     @ApiOperation(value="영화 번호 별 영화 정보 조회")
-    @GetMapping("/{movieNo}")
+    @GetMapping("/movieNo/{movieNo}")
     public ResponseEntity<Movie> getMovieInfo(@PathVariable("movieNo") int movieNo) {
         LOGGER.debug("영화 번호 별 영화 정보 조회");
 
