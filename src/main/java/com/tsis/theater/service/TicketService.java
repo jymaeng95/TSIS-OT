@@ -12,11 +12,14 @@ public interface TicketService {
     //예매 정보 가져오기
     List<Map<String,Object>> getTicketingInfo(String phone);
 
+
+
+
     //예매 취소
     boolean cancelTicketing(int ticketNo);
 
     //좌석 불러오기
-    List<String> getReserveSeat(int movieNo);
+    List<String> getReserveSeat(int ticketNo);
 
     //현재 예매된 좌석 개수 가져오기
     int getTicketingSeatCount(int movieNo);

@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/ticketing")
 @Api(tags = "Ticket", value = "Ticket controller")
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
 public class TicketController {
     @Autowired
     TicketService ticketService;
@@ -55,11 +56,11 @@ public class TicketController {
     }
 
     @ApiOperation(value="영화에 따른 예매 좌석 상태 확인")
-    @GetMapping("/seatStatus/{movieNo}")
-    public ResponseEntity<List<String>> getSeatStatus(@PathVariable("movieNo") int movieNo){
+    @GetMapping("/seatStatus/{ticketNo}")
+    public ResponseEntity<List<String>> getSeatStatus(@PathVariable("ticketNo") int ticketNo){
         LOGGER.debug("영화에 따른 예매 좌석 상태 확인");
 
-        return new ResponseEntity<>(ticketService.getReserveSeat(movieNo), HttpStatus.OK);
+        return new ResponseEntity<>(ticketService.getReserveSeat(ticketNo), HttpStatus.OK);
     }
 
     @ApiOperation(value="현재 예매된 좌석 개수 가져오기")

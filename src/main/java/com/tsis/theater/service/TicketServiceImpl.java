@@ -29,8 +29,8 @@ public class TicketServiceImpl implements TicketService{
     }
 
     @Override
-    public List<String> getReserveSeat(int movieNo) {
-        return ticketRepository.readSeatStatus(movieNo);
+    public List<String> getReserveSeat(int ticketNo) {
+        return ticketRepository.readSeatStatus(ticketNo);
     }
 
     @Override

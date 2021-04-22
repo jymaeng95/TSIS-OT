@@ -9,9 +9,10 @@
 
     <!-- 예매 번호 가져오기   -->
     <select id="readTicketing" resultType="java.util.HashMap">
-        select ticketno, movieno, count(ticketno) as countPeople
+        select ticketNo, movieNo, count(ticketno) as countPeople
         from ticketing where phone = #{phone}
         group by ticketno
+        order by ticketNo
     </select>
 
     <!-- 예매 변경
@@ -37,5 +38,6 @@
         select seat
         from ticketing
         where ticketno = #{ticketNo}
+
     </select>
 </mapper>
