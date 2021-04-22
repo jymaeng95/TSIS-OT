@@ -13,8 +13,8 @@ public class MovieServiceImpl implements MovieService{
     private MovieRepository movieRepository;
 
     @Override
-    public List<Movie> getAllMoviesInfo() {
-        return movieRepository.getAllMovies();
+    public List<Movie> getAllRoomMoviesInfo(int room) {
+        return movieRepository.getAllRoomMovies(room);
     }
 
     @Override

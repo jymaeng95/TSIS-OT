@@ -23,6 +23,28 @@ public class Movie {
     @ApiModelProperty(value = "상영관 좌석수")
     private int totalSeat;
 
+    public int getSeatRow() {
+        return seatRow;
+    }
+
+    public void setSeatRow(int seatRow) {
+        this.seatRow = seatRow;
+    }
+
+    public int getSeatCol() {
+        return seatCol;
+    }
+
+    public void setSeatCol(int seatCol) {
+        this.seatCol = seatCol;
+    }
+
+    @ApiModelProperty(value = "상영관 좌석 행")
+    private int seatRow;
+
+    @ApiModelProperty(value = "상영관 좌석 열")
+    private int seatCol;
+
     public int getTotalSeat() {
         return totalSeat;
     }
@@ -80,6 +102,10 @@ public class Movie {
                 ", title='" + title + '\'' +
                 ", price=" + price +
                 ", startTime='" + startTime + '\'' +
+                ", totalSeat=" + totalSeat +
+                ", seatRow=" + seatRow +
+                ", seatCol=" + seatCol +
                 '}';
     }
 }
+

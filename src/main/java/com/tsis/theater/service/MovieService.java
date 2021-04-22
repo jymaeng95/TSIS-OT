@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface MovieService {
     //모든 영화 정보 가져오기
-    List<Movie> getAllMoviesInfo();
+    List<Movie> getAllRoomMoviesInfo(int room);
 
     //영화 정보 가져오기
     Movie getMovieInfo(int movieNo);

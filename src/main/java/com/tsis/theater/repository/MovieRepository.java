@@ -8,7 +8,7 @@ import java.util.List;
 @Repository
 public interface MovieRepository {
     //모든 영화 정보 가져오기
-    List<Movie> getAllMovies();
+    List<Movie> getAllRoomMovies(int room);
 
     //영화 정보 불러오기
     Movie getMovie(int movieNo);
