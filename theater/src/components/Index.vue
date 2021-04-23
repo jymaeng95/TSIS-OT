@@ -62,7 +62,7 @@ export default {
       showModal : false
     }
   },
-  created : function() {
+  mounted : function() {
     const baseURI = 'http://localhost:8080/movie';
     axios.get(`${baseURI}`)
     .then((result) => {

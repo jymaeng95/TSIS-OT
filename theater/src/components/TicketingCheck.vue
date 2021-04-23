@@ -15,10 +15,9 @@
             <div v-for="(item,index) in movieInfo" :key="index" class="ticketing-info d-flex">
                 <div class="movie-img">
                   <div class="card" style="width: 70px; margin:10px; margin-top:0px;">
-                  
-                    <img v-if="item.room == 1" src="@/assets/clementain.jpg" class="card-img-top" alt="...">
-                    <img v-else-if="item.room == 2" src="@/assets/hero.jpg" class="card-img-top" alt="...">
-                    <img v-else src="@/assets/match.jpg" class="card-img-top" alt="...">
+                    <img v-if="item.room == 1" src="@/assets/clementain.jpg" class="card-img-top"  alt="...">
+                    <img v-else-if="item.room == 2" src="@/assets/hero.jpg" class="card-img-top"  alt="...">
+                    <img v-else src="@/assets/match.jpg" class="card-img-top"  alt="...">
                   </div>
                 </div>
                 <div class="ticket-info">
@@ -69,7 +68,7 @@ export default {
       seat :''
     }
   },
-  created : function() {
+  mounted()  {
 
     const ticketURI = 'http://localhost:8080/ticketing';
     axios.get(`${ticketURI}/${this.phone}`)
@@ -77,20 +76,22 @@ export default {
       // console.log(result)
       this.ticketInfo = result.data
 
-      const movieURI = 'http://localhost:8080/movie';
+      const movieURI = 'http://localhost:8080/movie/movieNo';
       for(let i=0;i<this.ticketInfo.length;i++){  
         axios.get(`${movieURI}/${this.ticketInfo[i].movieNo}`)
          .then((rst) => {
-          // console.log(rst)
+          console.log(rst)
           this.movieInfo.push(rst.data)
+       
         })
+        
       }
 
       const seatURI = 'http://localhost:8080/ticketing/seatStatus'
       for(let i=0;i<this.ticketInfo.length;i++){
         axios.get(`${seatURI}/${this.ticketInfo[i].ticketNo}`)
         .then((seatRst) => {
-          console.log(seatRst)
+          // console.log(seatRst)
           this.seat ='';
           for(let j=0;j<seatRst.data.length;j++){
             this.seat += ""+seatRst.data[j].toString()+", "
