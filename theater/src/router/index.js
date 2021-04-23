@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 // page
 import BoxOffice from '@/components/BoxOffice.vue'
 import Index from '@/components/Index.vue'
+import Ticketing from '@/components/Ticketing.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -25,6 +26,12 @@ const routes = [
     name: 'box',
     component: BoxOffice,
     props: true
+  },
+  {
+    path : '/ticketing',
+    name : 'ticketing',
+    component : Ticketing,
+    props : true
   }
 ]
 

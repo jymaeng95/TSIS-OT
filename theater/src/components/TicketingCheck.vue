@@ -25,9 +25,9 @@
                       <h4>{{movieInfo[index].room}}관</h4>
                       <h4>{{movieInfo[index].title}}</h4>
                       <h4>{{movieInfo[index].startTime}}</h4>
-                      <h4>{{ticketInfo[index].countPeople}}명</h4>
                   </div>
                   <div class="d-flex info-main">
+                      <h4>{{ticketInfo[index].countPeople}}명</h4>
                       <h4>{{seatInfo[index]}}</h4>
                       <h4>{{movieInfo[index].price * ticketInfo[index].countPeople}}원</h4>
                       <button class="cancel-ticketing btn btn-primary">예매 취소</button>
@@ -87,7 +87,7 @@ export default {
         
       }
 
-      const seatURI = 'http://localhost:8080/ticketing/seatStatus'
+      const seatURI = 'http://localhost:8080/ticketing/seatStatus/ticketNo'
       for(let i=0;i<this.ticketInfo.length;i++){
         axios.get(`${seatURI}/${this.ticketInfo[i].ticketNo}`)
         .then((seatRst) => {
