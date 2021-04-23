@@ -55,12 +55,20 @@ public class TicketController {
         return new ResponseEntity<>("예매 취소 실패", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ApiOperation(value="영화에 따른 예매 좌석 상태 확인")
-    @GetMapping("/seatStatus/{ticketNo}")
+    @ApiOperation(value="예매번호 따른 예매 좌석 상태 확인")
+    @GetMapping("/seatStatus/ticketNo/{ticketNo}")
     public ResponseEntity<List<String>> getSeatStatus(@PathVariable("ticketNo") int ticketNo){
-        LOGGER.debug("영화에 따른 예매 좌석 상태 확인");
+        LOGGER.debug("예매번호에 따른 예매 좌석 상태 확인");
 
         return new ResponseEntity<>(ticketService.getReserveSeat(ticketNo), HttpStatus.OK);
+    }
+
+    @ApiOperation(value="영화번호에 따른 예매 좌석 상태 확인")
+    @GetMapping("/seatStatus/movieNo/{movieNo}")
+    public ResponseEntity<List<String>> getSeatStatusByMovieNo(@PathVariable("movieNo") int movieNo){
+        LOGGER.debug("영화번호에 따른 예매 좌석 상태 확인");
+
+        return new ResponseEntity<>(ticketService.getReserveSeatByMovieNo(movieNo),HttpStatus.OK);
     }
 
     @ApiOperation(value="현재 예매된 좌석 개수 가져오기")
