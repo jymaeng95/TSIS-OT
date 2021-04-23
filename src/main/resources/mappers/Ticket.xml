@@ -11,7 +11,7 @@
     <select id="readTicketing" resultType="java.util.HashMap">
         select ticketNo, movieNo, count(ticketno) as countPeople
         from ticketing where phone = #{phone}
-        group by ticketno
+        group by ticketno, movieNo
         order by ticketNo
     </select>
 
@@ -38,6 +38,11 @@
         select seat
         from ticketing
         where ticketno = #{ticketNo}
+    </select>
 
+    <select id="readSeatStatusByMovieNo" resultType="String">
+        select seat
+        from ticketing
+        where movieno = #{movieNo}
     </select>
 </mapper>

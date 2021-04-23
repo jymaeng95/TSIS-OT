@@ -25,6 +25,8 @@ public interface TicketRepository {
     //Integer list로 가져오기
     int readTicketingCountSeat(int movieNo);
 
-    //좌석 정보 가져오기
+    //예매 번호에 따른 좌석 정보 가져오기
     List<String> readSeatStatus(int ticketNo);
+
+    List<String> readSeatStatusByMovieNo(int movieNo);
 }
