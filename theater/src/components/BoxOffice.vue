@@ -101,6 +101,7 @@ export default {
             this.seatInfo = new Array();
             const ticketingBtn = document.querySelector('.ticketing');
             ticketingBtn.value = movieNo;
+            
             const baseURI = 'http://localhost:8080/ticketing/seatStatus/movieNo';
             axios.get(`${baseURI}/${movieNo}`)
             .then((result) => { 
@@ -185,14 +186,21 @@ export default {
             const seat = document.querySelector('.hidden-seat-info')
             const countPeople = document.querySelector('.p-people-count');
             const price = document.querySelector('.p-price-won');
+            const timeBtn = document.querySelectorAll('.btn-start-time');
             const movieNo = $event.target.value;
+            for(var i=0;i<timeBtn.length;i++){
+                if(timeBtn[i].value === movieNo) {
+                    this.sentMovieInfo.startTime = timeBtn[i].textContent;
+                    break;
+                }
+            }
 
             this.sentMovieInfo.movieNo = movieNo;
             this.sentMovieInfo.title = this.data.title;
             this.sentMovieInfo.room = this.data.room;
             this.sentMovieInfo.price = price.textContent;
             this.sentMovieInfo.countPeople = countPeople.textContent;
-
+            
             this.selectedSeat = seat.value;
             this.ticketing = true;
             // this.$router.push({path: "/ticketing",name:'ticketing', params: { seat : seat.value, movieNo : movieNo}})
