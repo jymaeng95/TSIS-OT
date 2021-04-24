@@ -1,9 +1,58 @@
 <template>
-    <div>
-        {{this.seat}}
+    <transition name="modal">
+    <div class="modal-mask" @click.self="$emit('close')">
+      <div class="modal-wrapper" @click.self="$emit('close')" >
+        <div class="modal-container-ticketing">
 
-        {{this.movieNo}}
+          <div class="modal-header">
+            <slot name="header">
+              <h2>"{{this.seat}}" 님의 예매 내역 {{this.movieInfo.price}} {{this.movieInfo.title}} {{this.movieInfo.room}} {{this.movieInfo.countPeople}} {{this.movieInfo.movieNo}}</h2>
+              
+              
+            </slot>
+          </div>
+
+
+          <div class="modal-body">
+            <div class="ticketing-info d-flex">
+                <div class="movie-img">
+                  <div class="card" style="width: 70px; margin:10px; margin-top:0px;">
+                    <!-- <img v-if="item.room == 1" src="@/assets/clementain.jpg" class="card-img-top"  alt="...">
+                    <img v-else-if="item.room == 2" src="@/assets/hero.jpg" class="card-img-top"  alt="...">
+                    <img v-else src="@/assets/match.jpg" class="card-img-top"  alt="..."> -->
+                  </div>
+                </div>
+                <div class="ticket-info">
+                  <div class="d-flex info-main">
+                      <!-- <h4>{{movieInfo[index].room}}관</h4>
+                      <h4>{{movieInfo[index].title}}</h4>
+                      <h4>{{movieInfo[index].startTime}}</h4> -->
+                  </div>
+                  <div class="d-flex info-main">
+                      <!-- <h4>{{ticketInfo[index].countPeople}}명</h4>
+                      <h4>{{seatInfo[index]}}</h4>
+                      <h4>{{movieInfo[index].price * ticketInfo[index].countPeople}}원</h4> -->
+                      <button class="cancel-ticketing btn btn-primary">예매 취소</button>
+                  </div>
+                </div>
+                
+            </div>
+          </div>
+    
+          <div class="modal-footer">
+            <slot name="footer">
+     
+              <!-- <button class="modal-default-button" @click="$emit('close')"> -->
+              <button class="modal-default-button btn btn-primary" @click="$emit('close')">
+                확인
+              </button> 
+            </slot>
+          </div>
+        </div>
+       
+      </div>
     </div>
+  </transition>
 </template>
 
 <script>
@@ -13,8 +62,8 @@ export default {
         seat : {
             type :String
         },
-        movieNo : {
-            type : String
+        movieInfo : {
+            type : Object
         }
         
     },
@@ -22,5 +71,29 @@ export default {
 </script>
 
 <style>
+.modal-container-ticketing {
+  width: 900px;
+  height : 900px;
 
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+  transition: all .3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.modal-header h3 {
+  margin-top: 0;
+  color: #42b983;
+}
+
+.modal-body {
+  margin: 20px 0;
+}
+
+.modal-default-button {
+  float: right;
+}
 </style>

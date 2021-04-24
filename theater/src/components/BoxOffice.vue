@@ -13,7 +13,10 @@
         <div class="movie-start-time">
             <button type="button" class="btn btn-start-time" v-for="(item,index) in movieInfo" 
                 :key="index" :value="item.movieNo" @click="getSeat(item.movieNo,item.price)" >{{item.startTime}}</button>
-           
+        </div>
+        <!-- 남은 좌석 / 전체 좌석 -->
+        <div class="current-seat-status">
+            <p class="cur-seat"></p>
         </div>
     </div>
     <div class="movie-info" >
@@ -37,18 +40,25 @@
             <button class="ticketing btn btn-primary" style="" @click="goTicketing($event)">예매</button>
         </div>
     </div>
+    <Ticketing v-if="ticketing" @close="ticketing = false" :movieInfo ='sentMovieInfo' :seat='selectedSeat'/>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import Ticketing from '@/components/Ticketing.vue'
 export default {
     name : "BoxOffice",
+    components : {
+        Ticketing
+    },
     data() {
         return {
             movieInfo : [],
             selectedSeat : [],
+            sentMovieInfo : {},
             countSeat : 0,
+            ticketing : false,
         }
     },
     props: {
@@ -96,6 +106,8 @@ export default {
             .then((result) => { 
                 console.log(result)
                 this.paintSeat(result,price)
+                const curSeat = document.querySelector('.cur-seat')
+                curSeat.innerText = '상영관 좌석 상태 : '+(this.data.totalSeat - result.data.length)+ ' / '+this.data.totalSeat;
             })
             // axios를 통해서 예약된 좌석 다 가져오기 
             // 이중 for문을 돌리면서
@@ -105,6 +117,8 @@ export default {
             var ascii = 64; 
             var reserveSeat = seatInfo.data.length;     //현재 예약된 좌석 수
             // console.log(seatInfo.data.length)
+
+            
             var reserveIndex = 0;
             const seatDIV = document.querySelector(".seat-info");
             while(seatDIV.hasChildNodes())
@@ -158,6 +172,7 @@ export default {
                         }
                         countPeople.innerHTML = count+' 명';
                         price.innerHTML = (count * moviePrice)+' 원';
+
                         seat.innerHTML = '좌석 : '+clickSeat
                         seatInfo.value = clickSeat;
                     })
@@ -168,9 +183,20 @@ export default {
         },        
         goTicketing($event) {
             const seat = document.querySelector('.hidden-seat-info')
+            const countPeople = document.querySelector('.p-people-count');
+            const price = document.querySelector('.p-price-won');
             const movieNo = $event.target.value;
-            this.$router.push({path: "/ticketing",name:'ticketing', params: { seat : seat.value, movieNo : movieNo}})
-    
+
+            this.sentMovieInfo.movieNo = movieNo;
+            this.sentMovieInfo.title = this.data.title;
+            this.sentMovieInfo.room = this.data.room;
+            this.sentMovieInfo.price = price.textContent;
+            this.sentMovieInfo.countPeople = countPeople.textContent;
+
+            this.selectedSeat = seat.value;
+            this.ticketing = true;
+            // this.$router.push({path: "/ticketing",name:'ticketing', params: { seat : seat.value, movieNo : movieNo}})
+
         }
     }
     
@@ -186,15 +212,14 @@ export default {
         border-radius: 2px solid;
     }
 
-    .movie-start-time, .movie-watch-people {
+    .movie-start-time, .current-seat-status {
         margin-left : 50px;
+        margin-top : 50px;
     }
     .movie-start-time select {
         width : 85%;
     }
-    .movie-watch-people input {
-        width : 85%;
-    }
+
     .left-info {
         border-right : 0.3px dashed gray;
     }
