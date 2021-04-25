@@ -32,7 +32,7 @@ public class TicketController {
         LOGGER.debug("예매 정보 입력 시도");
 
         // 1. 가장 최근에 사용된 ticketNo 가져오기
-        int ticketNo = ticketService.getTicketNoRecent();
+        int ticketNo = ticketService.getTicketNoRecent()+1;
 
         if (ticketService.reserveTicketing(tickets,ticketNo))
             return new ResponseEntity<>("예매 완료", HttpStatus.OK);
@@ -49,8 +49,8 @@ public class TicketController {
     }
 
     @ApiOperation(value = "예매 취소 시도")
-    @DeleteMapping("/cancel")
-    public ResponseEntity<String> cancelTicketing(int ticketNo) {
+    @DeleteMapping("/cancel/{ticketNo}")
+    public ResponseEntity<String> cancelTicketing(@PathVariable("ticketNo") int ticketNo) {
         LOGGER.debug("예매 취소 시도");
 
         if (ticketService.cancelTicketing(ticketNo))
