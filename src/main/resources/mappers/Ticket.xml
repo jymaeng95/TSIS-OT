@@ -40,9 +40,17 @@
         where ticketno = #{ticketNo}
     </select>
 
+    <!--  상영 시간 별 현재 예매된 좌석 정보 가져오기  -->
     <select id="readSeatStatusByMovieNo" resultType="String">
         select seat
         from ticketing
         where movieno = #{movieNo}
+    </select>
+
+    <select id ="readTicketNoRecent" resultType="Integer">
+        select ticketNo
+        from ticketing
+        order by ticketNo desc
+        limit 1
     </select>
 </mapper>

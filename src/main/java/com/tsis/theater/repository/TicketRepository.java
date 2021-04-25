@@ -18,9 +18,6 @@ public interface TicketRepository {
     //예매취소 (delete)
     int deleteTicketing(int ticketNo);
 
-    //예매변경 (update)
-//    int updateTicketing(Ticket ticket);
-
     //현재 이용 중인 좌석 개수 가져오기
     //Integer list로 가져오기
     int readTicketingCountSeat(int movieNo);
@@ -29,4 +26,7 @@ public interface TicketRepository {
     List<String> readSeatStatus(int ticketNo);
 
     List<String> readSeatStatusByMovieNo(int movieNo);
+
+    // 가장 최근에 사용된 예매 번호 가져오기
+    int readTicketNoRecent();
 }
