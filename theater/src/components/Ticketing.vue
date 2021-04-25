@@ -13,7 +13,7 @@
           <div class="modal-body">
             <div class="ticketing-info d-flex">
               <div class="card" style="width: 350px; margin:10px; margin-top:0px;">
-                <img src="@/assets/clementain.jpg" class="card-img-top" id ="movie-img" alt="...">
+                <img src="@/assets/clementain.jpg" class="card-img-top" id ="movie-thumbnail" alt="...">
                 <div class="card-body">
                   <h4 class="p-title">{{this.movieInfo.title}}</h4>
                 </div>
@@ -69,14 +69,16 @@ export default {
     },
     mounted() {
       //이미지 변화 확인
+
       switch(this.movieInfo.room) {
-            case 1 : document.getElementById('movie-img').src=require('@/assets/clementain.jpg')
-                    break
-            case 2 : document.getElementById('movie-img').src=require("@/assets/hero.jpg") 
+            case 1 : document.getElementById('movie-thumbnail').src=require('@/assets/clementain.jpg')
                     break;
-            default : document.getElementById('movie-img').src=require("@/assets/match.jpg")
+            case 2 : document.getElementById('movie-thumbnail').src=require("@/assets/hero.jpg") 
+                    break;
+            default : document.getElementById('movie-thumbnail').src=require("@/assets/match.jpg")
   
-        }  
+        } 
+
     },
     methods : {
       reserveTicketing() {
@@ -98,7 +100,7 @@ export default {
         const baseURI = 'http://localhost:8080/ticketing/reserve'
         axios.post(`${baseURI}`, data)
         .then((response) => {
-          alert(response)
+          console.log(response)
           this.$router.push({path: "/",name:'Index'})
         })
       }

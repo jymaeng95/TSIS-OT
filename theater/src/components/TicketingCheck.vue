@@ -2,7 +2,7 @@
   <transition name="modal">
     <div class="modal-mask" @click.self="$emit('close')">
       <div class="modal-wrapper" @click.self="$emit('close')" >
-        <div class="modal-container-ticketing" style="width:600px; height:600px;">
+        <div class="modal-container-ticketing" style="width:750px; height:600px;overflow:scroll;">
 
           <div class="modal-header">
             <slot name="header">
@@ -30,7 +30,7 @@
                       <h4>{{ticketInfo[index].countPeople}}명</h4>
                       <h4>{{seatInfo[index]}}</h4>
                       <h4>{{movieInfo[index].price * ticketInfo[index].countPeople}}원</h4>
-                      <button class="cancel-ticketing btn btn-primary">예매 취소</button>
+                      <button class="cancel-ticketing btn btn-primary" :value='ticketInfo[index].ticketNo' @click="cancelTicketing($event)" >예매 취소</button>
                   </div>
                 </div>
                 
@@ -69,38 +69,48 @@ export default {
     }
   },
   mounted()  {
-
     const ticketURI = 'http://localhost:8080/ticketing';
     axios.get(`${ticketURI}/${this.phone}`)
     .then((result) => {
-      // console.log(result)
-      this.ticketInfo = result.data
+      console.log(result);
+      this.ticketInfo = result.data;
 
       const movieURI = 'http://localhost:8080/movie/movieNo';
+      const seatURI = 'http://localhost:8080/ticketing/seatStatus/ticketNo';
       for(let i=0;i<this.ticketInfo.length;i++){  
+
         axios.get(`${movieURI}/${this.ticketInfo[i].movieNo}`)
          .then((rst) => {
-          console.log(rst)
-          this.movieInfo.push(rst.data)
+          console.log(rst);
+          this.movieInfo.push(rst.data);
        
         })
-        
-      }
 
-      const seatURI = 'http://localhost:8080/ticketing/seatStatus/ticketNo'
-      for(let i=0;i<this.ticketInfo.length;i++){
         axios.get(`${seatURI}/${this.ticketInfo[i].ticketNo}`)
         .then((seatRst) => {
           // console.log(seatRst)
           this.seat ='';
           for(let j=0;j<seatRst.data.length;j++){
-            this.seat += ""+seatRst.data[j].toString()+", "
+            this.seat += ""+seatRst.data[j].toString()+", ";
           }
-          this.seatInfo.push(this.seat.substring(0,this.seat.length-2))
+          this.seatInfo.push(this.seat.substring(0,this.seat.length-2));
         })
+        
       }
     })
   },
+
+  methods : {
+    cancelTicketing($event) {
+      const ticketNo = $event.target.value;
+      const cancelURI = 'http://localhost:8080/ticketing/cancel';
+      axios.delete(`${cancelURI}/${ticketNo}`)
+      .then((response) => {
+        console.log(response);
+        
+      })
+    }
+  }
 }
 </script>
 
@@ -148,15 +158,6 @@ export default {
   float: right;
 }
 
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
-
 .modal-enter {
   opacity: 0;
 }
@@ -180,5 +181,10 @@ export default {
 .ticketing-info {
 
   margin-top : 20px;
+}
+
+.cancel-ticketing {
+  position:absolute;
+  right : 10px;
 }
 </style>
