@@ -6,7 +6,7 @@
 
           <div class="modal-header">
             <slot name="header">
-              <h2>"{{this.seat}}" 님의 예매 내역 {{this.movieInfo.price}} {{this.movieInfo.title}} {{this.movieInfo.room}} {{this.movieInfo.countPeople}} {{this.movieInfo.movieNo}}</h2>             
+              <h2>"{{this.phone}}" 님의 예매 확인</h2>             
             </slot>
           </div>
 
@@ -28,6 +28,7 @@
                     <h4>좌석 : {{this.seat}}</h4>
                     <h4>인원 : {{this.movieInfo.countPeople}}</h4>
                     <h4>가격 : {{this.movieInfo.price}}</h4>
+                    <h4>핸드폰 : {{this.phone}}</h4>
                     <img src="@/assets/bacord.png" class="card-img-bacord" id="bacord-img" alt="..." style="width:330px;">
                 </div>
               </div>
@@ -38,7 +39,7 @@
             <slot name="footer">
      
               <!-- <button class="modal-default-button" @click="$emit('close')"> -->
-              <button class="modal-default-button btn btn-primary" @click="$emit('close')">
+              <button class="modal-default-button btn btn-primary" @click="reserveTicketing()">
                 확인
               </button> 
             </slot>
@@ -51,9 +52,13 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name : 'ticketing',
     props: {
+        phone : {
+          type : String
+        },
         seat : {
             type :String
         },
@@ -63,7 +68,8 @@ export default {
         
     },
     mounted() {
-      switch(this.movieInfo.room){
+      //이미지 변화 확인
+      switch(this.movieInfo.room) {
             case 1 : document.getElementById('movie-img').src=require('@/assets/clementain.jpg')
                     break
             case 2 : document.getElementById('movie-img').src=require("@/assets/hero.jpg") 
@@ -73,8 +79,31 @@ export default {
         }  
     },
     methods : {
-      
+      reserveTicketing() {
+
+        //좌석 정보 파싱
+        const seats = this.seat.split(',');
+        console.log(seats)
+        let data = new Array();
+
+        // Object List로 변환
+        for(var seat of seats) {
+          let obj = new Object();
+          obj.movieNo = this.movieInfo.movieNo;
+          obj.seat = seat;
+          obj.phone = this.phone;
+          data.push(obj);
+        }
+        console.log(data)
+        const baseURI = 'http://localhost:8080/ticketing/reserve'
+        axios.post(`${baseURI}`, data)
+        .then((response) => {
+          alert(response)
+          this.$router.push({path: "/",name:'Index'})
+        })
+      }
     }
+    
 }
 </script>
 

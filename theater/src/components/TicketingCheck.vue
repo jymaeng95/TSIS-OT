@@ -2,7 +2,7 @@
   <transition name="modal">
     <div class="modal-mask" @click.self="$emit('close')">
       <div class="modal-wrapper" @click.self="$emit('close')" >
-        <div class="modal-container-ticketing">
+        <div class="modal-container-ticketing" style="width:600px; height:600px;">
 
           <div class="modal-header">
             <slot name="header">

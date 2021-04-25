@@ -11,7 +11,6 @@
           </div>
 
           <div class="modal-body">
-            
             <input class="input-phone" type='text' v-model='phoneFirst' placeholder="ex) 010" maxlength="3"/> -
             <input class="input-phone" type='text' v-model='phoneMiddle' placeholder="ex) 0000" maxlength="4"/> -
             <input class="input-phone" type='text' v-model='phoneLast' placeholder="ex) 1111" maxlength="4"/>
@@ -29,6 +28,7 @@
           </div>
         </div>
         <TicketingCheck v-if="ticketCheck" @close="ticketCheck = false" :phone='phone'/>
+        <Ticketing v-if="ticketing" @close="ticketing = false" :seat='seat' :movieInfo='movieInfo' :phone='phone'/>
       </div>
     </div>
   </transition>
@@ -38,10 +38,24 @@
 
 <script>
 import TicketingCheck from '@/components/TicketingCheck.vue'
+import Ticketing from '@/components/Ticketing.vue'
 export default {
   name: 'InputPhone',
   components : {
     TicketingCheck,
+    Ticketing
+  },
+  props: {
+    flag : {
+      type :String
+    },
+    seat : {
+        type :String
+    },
+    movieInfo : {
+        type : Object
+    }
+      
   },
   data () {
     return {
@@ -50,6 +64,7 @@ export default {
       phoneLast : '',
       phone: '',
       ticketCheck : false,
+      ticketing :  false,
       showModal : true
     }
   },
@@ -60,9 +75,18 @@ export default {
         alert("올바른 핸드폰 번호를 입력해주세요.")
         return false;
       }
-      this.showModal=false
-      this.ticketCheck=true
       this.phone = this.phoneFirst+this.phoneMiddle+this.phoneLast
+
+      if(this.flag === '1') {
+        this.showModal=false
+        this.ticketCheck=true
+        return;
+      }
+      
+      if(this.flag === '2') {
+        this.showModal=false
+        this.ticketing=true;
+      }
     },
   }
 

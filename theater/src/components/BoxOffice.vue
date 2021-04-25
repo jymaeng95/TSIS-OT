@@ -20,8 +20,6 @@
         </div>
     </div>
     <div class="movie-info" >
-        <!-- {{movieInfo[0].startTime}} -->
-        <!-- 행*열이 seatCol의 배수일때 마다 알파벳 아스키코드 + 1 -->
         <div class="screen">
             <h2>screen</h2>
         </div>
@@ -40,17 +38,22 @@
             <button class="ticketing btn btn-primary" style="" @click="goTicketing($event)">예매</button>
         </div>
     </div>
-    <Ticketing v-if="ticketing" @close="ticketing = false" :movieInfo ='sentMovieInfo' :seat='selectedSeat'/>
+    <InputPhone v-if="showModal" @close="showModal = false" :movieInfo='sentMovieInfo' :seat='selectedSeat' :flag='flag'>
+          <h3 slot="header">핸드폰 번호 입력</h3>
+    </InputPhone>
+
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import Ticketing from '@/components/Ticketing.vue'
+// import Ticketing from '@/components/Ticketing.vue'
+import InputPhone from '@/components/InputPhone.vue'
 export default {
     name : "BoxOffice",
     components : {
-        Ticketing
+        // Ticketing,
+        InputPhone
     },
     data() {
         return {
@@ -59,6 +62,9 @@ export default {
             sentMovieInfo : {},
             countSeat : 0,
             ticketing : false,
+            showModal : false,
+            flag : ''
+
         }
     },
     props: {
@@ -145,7 +151,10 @@ export default {
                     if(reserveSeat > reserveIndex && seatInfo.data[reserveIndex] === btnValue) {
                         seatBtn.disabled = true;
                         seatBtn.innerText="X"
+                        seatBtn.style ="margin:10px; border : 1px solid gray; background :lightsalmon"
                         reserveIndex++;
+                        div.append(seatBtn);
+                        continue;
                     }
                     seatBtn.addEventListener('click',function(e){
                         console.log(e.target.value)
@@ -202,7 +211,10 @@ export default {
             this.sentMovieInfo.countPeople = countPeople.textContent;
             
             this.selectedSeat = seat.value;
-            this.ticketing = true;
+            this.flag = '2';
+            this.showModal = true;
+
+            // this.ticketing = true;
             // this.$router.push({path: "/ticketing",name:'ticketing', params: { seat : seat.value, movieNo : movieNo}})
 
         }

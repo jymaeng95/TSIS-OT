@@ -3,9 +3,9 @@
 
     <div>
         <h1 class="welcome-msg">Tsis Theater</h1>
-        <a href="#" class="btn btn-primary btn-confirm" @click="showModal = true">예매 확인</a> 
+        <button type="button" class="btn btn-primary btn-confirm" @click="getModal()">예매 확인</button> 
     </div>
-    <InputPhone v-if="showModal" @close="showModal = false">
+    <InputPhone v-if="showModal" @close="showModal = false" :flag='flag'>
           <!--
             you can use custom content here to overwrite
             default content
@@ -59,7 +59,8 @@ export default {
   data () {
     return {
       movieInfo :[],
-      showModal : false
+      showModal : false,
+      flag : '',
     }
   },
   mounted : function() {
@@ -69,11 +70,16 @@ export default {
       console.log(result)
       this.movieInfo = result.data
     })
+    this.flag = '1'
   },
   methods: {
     click (room) {
       // console.log(typeof(this.movieInfo[room]))
       this.$router.push({path: "/boxOffice",name:'box', params: { data : this.movieInfo[room]}})
+    },
+    getModal() {
+
+      this.showModal = true;
     }
   }
 }
