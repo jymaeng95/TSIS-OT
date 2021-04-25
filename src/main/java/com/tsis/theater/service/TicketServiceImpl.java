@@ -14,8 +14,14 @@ public class TicketServiceImpl implements TicketService{
     TicketRepository ticketRepository;
 
     @Override
-    public boolean reserveTicketing(Ticket ticket) {
-        return ticketRepository.insertTicketing(ticket) > 0;
+    public boolean reserveTicketing(List<Ticket> tickets, int ticketNo) {
+        for(Ticket ticket : tickets) {
+            ticket.setTicketNo(ticketNo);
+            boolean rst = ticketRepository.insertTicketing(ticket) > 0;
+            if(!rst)
+                return false;
+        }
+        return true;
     }
 
     @Override
@@ -41,6 +47,11 @@ public class TicketServiceImpl implements TicketService{
     @Override
     public int getTicketingSeatCount(int movieNo) {
         return ticketRepository.readTicketingCountSeat(movieNo);
+    }
+
+    @Override
+    public int getTicketNoRecent() {
+        return ticketRepository.readTicketNoRecent();
     }
 
 }

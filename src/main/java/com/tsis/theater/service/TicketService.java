@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface TicketService {
     //예매 하기
-    boolean reserveTicketing(Ticket ticket);
+    boolean reserveTicketing(List<Ticket> tickets, int ticketNo);
 
     //예매 정보 가져오기
     List<Map<String,Object>> getTicketingInfo(String phone);
@@ -23,4 +23,7 @@ public interface TicketService {
 
     //현재 예매된 좌석 개수 가져오기
     int getTicketingSeatCount(int movieNo);
+
+    // 가장 최근에 예매된 예매 번호 가져오기
+    int getTicketNoRecent();
 }
