@@ -54,20 +54,3 @@ VALUES (DEFAULT, 3, '성냥팔이 소녀의 재림', 9000, '18:00',144,12,12);
 INSERT INTO MOVIE 
 VALUES (DEFAULT, 3, '성냥팔이 소녀의 재림', 9000, '22:00',144,12,12);
 
-commit;
-select * from movie;
- 
- select count(ticketno)
- from ticketing;
-
-select * from ticketing;
-
-select room, totalseat, title, seatrow, seatcol, price, m
-from movie
-where room = 1
-group by room;
-
-select seat 
-from ticketing
-where ticketno = 1
-    
