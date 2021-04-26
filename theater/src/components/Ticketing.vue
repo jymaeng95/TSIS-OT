@@ -2,7 +2,7 @@
     <transition name="modal">
     <div class="modal-mask" @click.self="$emit('close')">
       <div class="modal-wrapper" @click.self="$emit('close')" >
-        <div class="modal-container-ticketing" style="width:900px; height:900px;">
+        <div class="modal-container-ticketing" style="width:900px; height:900px; overflow : scroll;">
 
           <div class="modal-header">
             <slot name="header">
@@ -12,7 +12,7 @@
 
           <div class="modal-body">
             <div class="ticketing-info d-flex">
-              <div class="card" style="width: 350px; margin:10px; margin-top:0px;">
+              <div class="card" style="width: 350px; margin:10px; margin-top:0px; ">
                 <img src="@/assets/clementain.jpg" class="card-img-top" id ="movie-thumbnail" alt="...">
                 <div class="card-body">
                   <h4 class="p-title">{{this.movieInfo.title}}</h4>
@@ -101,6 +101,7 @@ export default {
         axios.post(`${baseURI}`, data)
         .then((response) => {
           console.log(response)
+          alert(response.data)
           this.$router.push({path: "/",name:'Index'})
         })
       }
